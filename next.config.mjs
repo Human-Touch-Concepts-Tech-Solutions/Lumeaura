@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Move reactCompiler out of experimental
   reactCompiler: true,
+  
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 export default nextConfig;
