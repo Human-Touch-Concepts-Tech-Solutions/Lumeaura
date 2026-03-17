@@ -5,162 +5,164 @@ export const SidebarContainer = styled.aside`
   left: 0;
   top: 0;
   height: 100vh;
-  background-color: #F7F7F5;
-  border-right: 1px solid var(--border);
-  width: 250px; /* Default width for logic */
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--ivory);
+  /* border-right: 2px solid var(--charcoal); */
+  width: ${props => props.$mobileOpen ? '280px' : '70px'};
+  transition: width 0.3s ease;
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  white-space: nowrap;
 
-  /* DESKTOP BEHAVIOR */
   @media (min-width: 769px) {
-    width: 70px;
     &:hover {
       width: 250px;
-      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
     }
   }
 
-  /* MOBILE BEHAVIOR */
   @media (max-width: 768px) {
-    /* Move it entirely off screen to the left */
     transform: ${props => props.$mobileOpen ? 'translateX(0)' : 'translateX(-100%)'};
-    width: 280px; /* Slightly wider on mobile for easier tapping */
-    box-shadow: ${props => props.$mobileOpen ? '10px 0 30px rgba(0,0,0,0.2)' : 'none'};
+    width: 280px;
   }
 `;
-export const Hamburger = styled.div`
-  display: none;
-  position: fixed;
-  top: 1.2rem;
-  left: 1.2rem;
-  z-index: 1100;
-  font-size: 1.8rem;
-  color: var(--charcoal);
-  cursor: pointer;
-  background: #F7F7F5;
-  padding: 5px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 
-  @media (max-width: 768px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 export const NavSection = styled.div`
   flex: 1;
-  padding: 4rem 0 1rem 0; /* Extra top padding for the hamburger space */
+  padding-top: 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+`;
+
+export const NavItemWrapper = styled.div`
+  position: relative;
+  width: 100%;
+
+  /* Desktop Flyout Trigger */
+  @media (min-width: 769px) {
+    &:hover > div:last-child {
+      display: block;
+    }
+  }
 `;
 
 export const NavItem = styled.div`
   display: flex;
   align-items: center;
   padding: 0.8rem 1.5rem;
-  color: var(--charcoal);
+  color: black;
   cursor: pointer;
-  transition: all 0.2s;
+  white-space: nowrap;
+  transition: background 0.2s;
 
-  svg {
-    font-size: 1.5rem;
-    min-width: 40px;
-  }
-
+  svg { font-size: 1.5rem; min-width: 40px; }
+  
   span {
     margin-left: 1rem;
-    font-family: var(--body);
     font-weight: 500;
+    font-family: var(--heading);
     opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  /* Show text if desktop sidebar is hovered OR mobile sidebar is open */
-  ${SidebarContainer}:hover & span, 
-  ${props => props.$mobileOpen} & span {
-    opacity: 1;
-  }
-
-  @media (max-width: 768px) {
-    span { opacity: 1; }
+    letter-spacing: 0.1rem;
+    ${SidebarContainer}:hover & { opacity: 1; }
+    @media (max-width: 768px) { opacity: 1; }
   }
 
   &:hover {
-    background-color: var(--rose);
+    background-color: var(--gold);
     color: white;
+  }
+`;
+
+export const SubMenuContainer = styled.div`
+  display: none; 
+  position: absolute;
+  left: 100%; /* Pops out to the right */
+  top: 0;
+  background-color: var(--ivory);
+  min-width: 160px;
+  border: 1px solid var(--border);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+  z-index: 2000;
+
+  @media (max-width: 768px) {
+    display: ${props => props.$isOpen ? 'block' : 'none'};
+    position: static;
+    background-color: #eeeeec;
+    box-shadow: none;
+    border: none;
+  }
+`;
+
+export const SubNavItem = styled.div`
+  padding: 0.8rem 1.5rem;
+  color: var(--charcoal);
+  font-size: 1.0rem;
+  font-family: var(--heading);
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.1rem;
+  &:hover {
+    background-color: var(--gold);
+    color: white;
+  }
+`;
+
+export const ExpandIcon = styled.div`
+  margin-left: auto;
+  font-size: 1rem;
+  opacity: 0;
+  transition: transform 0.3s;
+  ${SidebarContainer}:hover & { opacity: 1; }
+  
+  @media (max-width: 768px) {
+    opacity: 1;
+    transform: ${props => props.$isOpen ? 'rotate(90deg)' : 'rotate(0deg)'};
   }
 `;
 
 export const BottomSection = styled.div`
   border-top: 1px solid var(--border);
   padding: 1rem 0;
-  margin-top: auto;
 `;
 
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem;
-  
+  padding: 0.5rem 1.5rem;
   .avatar {
-    width: 35px; height: 35px;
-    background: var(--gold);
-    color: white;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    width: 35px; height: 35px; background: var(--gold); color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
     font-weight: bold; min-width: 35px;
+   
   }
-
   .name {
-    margin-left: 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 0.2s;
+     font-family: var(--heading);
+    font-size: 1.0rem; letter-spacing: 0.1rem;
+    margin-left: 1rem; font-size: 0.9rem; font-weight: 600; opacity: 0;
+    ${SidebarContainer}:hover & { opacity: 1; }
+    @media (max-width: 768px) { opacity: 1; }
   }
-
-  ${SidebarContainer}:hover & .name { opacity: 1; }
-  @media (max-width: 768px) { .name { opacity: 1; } }
 `;
 
 export const LogoutButton = styled.button`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0.8rem 1.5rem;
-  background: transparent;
-  border: none;
-  color: #ff4d4d;
-  cursor: pointer;
-
-  svg {
-    font-size: 1.5rem;
-    min-width: 40px;
-  }
-
+  width: 100%; display: flex; align-items: center; padding: 0.8rem 1.5rem; font-family: var(--heading);
+  background: transparent; border: none; color: #ff0000; cursor: pointer; font-size: 1.0rem; letter-spacing: 0.1rem;
+  svg { font-size: 1.5rem; min-width: 40px; }
   span {
-    margin-left: 1rem;
-    font-weight: 600;
-    opacity: 0;
+    margin-left: 1rem; font-weight: 600; opacity: 0;
+    ${SidebarContainer}:hover & { opacity: 1; }
+    @media (max-width: 768px) { opacity: 1; }
   }
+`;
 
-  ${SidebarContainer}:hover & span { opacity: 1; }
-  @media (max-width: 768px) { span { opacity: 1; } }
-
-  &:hover { background: #fff5f5; }
+export const Hamburger = styled.div`
+  display: none;
+  position: fixed;
+  top: 1.2rem; left: 1.2rem;
+  z-index: 1100; font-size: 1.8rem;
+  @media (max-width: 768px) { display: flex; }
 `;
 
 export const Overlay = styled.div`
   display: ${props => props.$show ? 'block' : 'none'};
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.3);
-  z-index: 90;
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.3); z-index: 90;
 `;
