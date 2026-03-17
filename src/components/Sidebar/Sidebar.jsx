@@ -34,7 +34,7 @@ const Sidebar = ({ username = "Admin" }) => {
             onMobileClick={() => handleMobileSub('create')}
           >
             <SubLink href="/admin/products/add" label="Product" close={toggleSidebar} />
-            <SubLink href="/admin/blog/create" label="Blog" close={toggleSidebar} />
+            <SubLink href="/admin/blog/add" label="Blog" close={toggleSidebar} />
           </FlyoutMenu>
 
           <FlyoutMenu 
